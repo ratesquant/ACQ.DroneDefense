@@ -80,8 +80,8 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\DroneDefenceGame\DroneDefenceGame.csproj">
-      <Project>{94259aba-64ba-4754-92b4-99ada45fee61}</Project>
+    <ProjectReference Include="..\DroneDefenseGame\DroneDefenceGame.csproj">
+      <Project>{dd5cc95b-0a35-4380-8159-1ed98045bae5}</Project>
       <Name>DroneDefenceGame</Name>
     </ProjectReference>
   </ItemGroup>

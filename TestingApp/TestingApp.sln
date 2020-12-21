@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestingApp", "TestingApp.cs
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Libs", "Libs", "{56A3A0EC-8EDB-474A-B957-C274F233CD54}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DroneDefenceGame", "..\DroneDefenceGame\DroneDefenceGame.csproj", "{94259ABA-64BA-4754-92B4-99ADA45FEE61}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DroneDefenceGame", "..\DroneDefenseGame\DroneDefenceGame.csproj", "{DD5CC95B-0A35-4380-8159-1ED98045BAE5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -19,16 +19,16 @@ Global
 		{64D29884-8F92-4C59-95A7-895108360163}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{64D29884-8F92-4C59-95A7-895108360163}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{64D29884-8F92-4C59-95A7-895108360163}.Release|Any CPU.Build.0 = Release|Any CPU
-		{94259ABA-64BA-4754-92B4-99ADA45FEE61}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{94259ABA-64BA-4754-92B4-99ADA45FEE61}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{94259ABA-64BA-4754-92B4-99ADA45FEE61}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{94259ABA-64BA-4754-92B4-99ADA45FEE61}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DD5CC95B-0A35-4380-8159-1ED98045BAE5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DD5CC95B-0A35-4380-8159-1ED98045BAE5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DD5CC95B-0A35-4380-8159-1ED98045BAE5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DD5CC95B-0A35-4380-8159-1ED98045BAE5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{94259ABA-64BA-4754-92B4-99ADA45FEE61} = {56A3A0EC-8EDB-474A-B957-C274F233CD54}
+		{DD5CC95B-0A35-4380-8159-1ED98045BAE5} = {56A3A0EC-8EDB-474A-B957-C274F233CD54}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A7D2AD1D-1474-46D5-8D52-4675D1000383}

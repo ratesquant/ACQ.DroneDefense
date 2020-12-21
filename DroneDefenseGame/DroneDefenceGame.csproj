@@ -2,8 +2,8 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <AssemblyName>ACQ.DroneDefenceGame</AssemblyName>
-    <RootNamespace>ACQ.DroneDefenceGame</RootNamespace>
+    <AssemblyName>ACQ.DroneDefenseGame</AssemblyName>
+    <RootNamespace>ACQ.DroneDefenseGame</RootNamespace>
   </PropertyGroup>
 
 </Project>
