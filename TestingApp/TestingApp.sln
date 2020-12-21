@@ -1,0 +1,36 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30717.126
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestingApp", "TestingApp.csproj", "{64D29884-8F92-4C59-95A7-895108360163}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Libs", "Libs", "{56A3A0EC-8EDB-474A-B957-C274F233CD54}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DroneDefenceGame", "..\DroneDefenceGame\DroneDefenceGame.csproj", "{94259ABA-64BA-4754-92B4-99ADA45FEE61}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{64D29884-8F92-4C59-95A7-895108360163}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{64D29884-8F92-4C59-95A7-895108360163}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{64D29884-8F92-4C59-95A7-895108360163}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{64D29884-8F92-4C59-95A7-895108360163}.Release|Any CPU.Build.0 = Release|Any CPU
+		{94259ABA-64BA-4754-92B4-99ADA45FEE61}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{94259ABA-64BA-4754-92B4-99ADA45FEE61}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{94259ABA-64BA-4754-92B4-99ADA45FEE61}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{94259ABA-64BA-4754-92B4-99ADA45FEE61}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{94259ABA-64BA-4754-92B4-99ADA45FEE61} = {56A3A0EC-8EDB-474A-B957-C274F233CD54}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {A7D2AD1D-1474-46D5-8D52-4675D1000383}
+	EndGlobalSection
+EndGlobal
