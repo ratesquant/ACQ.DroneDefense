@@ -57,7 +57,9 @@ namespace TestingApp
             m_game.Board.Towers.Add(new GunTower(new GridPosition(4, 3)));
             m_game.Board.Towers.Add(new GunTower(new GridPosition(4, 4)));
 
-            m_game.Board.Agents.Add(new SlowWalkerAgent(new Position(500, 400)) );
+            m_game.Board.Agents.Add(new SlowWalkerAgent(new Position(400, 300)) );
+            m_game.Board.Agents.Add(new SlowWalkerAgent(new Position(300, 400)) );
+            m_game.Board.Agents.Add(new SlowWalkerAgent(new Position(400, 400)) );
 
         }
         void CreateNewTowerButtons()
@@ -111,6 +113,9 @@ namespace TestingApp
         {
             int camp_size = 10;
             int tower_size = 6;
+            int agent_size = 6;
+
+            bool drawHexGrid = false;
 
             //Show board
             Graphics g = e.Graphics;
@@ -150,26 +155,35 @@ namespace TestingApp
             //draw agents            
             foreach (GameAgent agent in board.Agents)
             {
-                g.DrawEllipse(Pens.Red, new Rectangle((int)agent.Position.X - tower_size / 2, (int)agent.Position.Y - tower_size / 2, tower_size, tower_size));
+                g.DrawEllipse(agent.isAlive ? Pens.Red : Pens.Gray,(int)agent.Position.X- agent_size/2, (int)agent.Position.Y- agent_size/2, agent_size, agent_size);
+                //draw health bar
+                if (agent.isAlive)
+                {
+                    g.FillRectangle(Brushes.Green, (int)agent.Position.X - 5, (int)agent.Position.Y - (agent_size + 5), (float)(11 * agent.HitPoints / 100), 4);
+                    g.DrawRectangle(Pens.Black, (int)agent.Position.X - 5, (int)agent.Position.Y - (agent_size + 5), 11, 4);
+                }
             }
 
             //draw hex = grid
-            for (int i =0; i<board.Grid.Rows; i++)
+            if (drawHexGrid)
             {
-                for (int j = 0; j < board.Grid.Columns; j++)
+                for (int i = 0; i < board.Grid.Rows; i++)
                 {
-                    double x, y;
-                    board.Grid.GetCellCenter(i, j, out x, out y);
-                    g.FillEllipse(Brushes.Gray, (float)x - 1, (float)y - 1, 2, 2);
-                    
-                    List<Position> vertexes = new List<Position>();
-                    for (int k = 0; k < 6; k++)
+                    for (int j = 0; j < board.Grid.Columns; j++)
                     {
-                        double x1, y1;
-                        double x2, y2;
-                        board.Grid.GetVertex(i, j, k, out x1, out y1);
-                        board.Grid.GetVertex(i, j, (k + 1) % 6, out x2, out y2);
-                        g.DrawLine(Pens.LightGray, (float)x1, (float)y1, (float)x2, (float)y2);
+                        double x, y;
+                        board.Grid.GetCellCenter(i, j, out x, out y);
+                        g.FillEllipse(Brushes.Gray, (float)x - 1, (float)y - 1, 2, 2);
+
+                        List<Position> vertexes = new List<Position>();
+                        for (int k = 0; k < 6; k++)
+                        {
+                            double x1, y1;
+                            double x2, y2;
+                            board.Grid.GetVertex(i, j, k, out x1, out y1);
+                            board.Grid.GetVertex(i, j, (k + 1) % 6, out x2, out y2);
+                            g.DrawLine(Pens.LightGray, (float)x1, (float)y1, (float)x2, (float)y2);
+                        }
                     }
                 }
             }
@@ -249,6 +263,11 @@ namespace TestingApp
             m_nMouseYCoord = e.Y;
 
             pictureBox1.Refresh();
+        }
+
+        private void newToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            InitGame();
         }
     }
 }

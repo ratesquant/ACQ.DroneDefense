@@ -11,5 +11,9 @@ namespace ACQ.DroneDefenceGame
         {
             return assembly.GetTypes().Where(t => t.IsClass && String.Equals(t.Namespace, nameSpace)).ToArray();
         }
+        public static double Sqr(double x)
+        {
+            return x * x;
+        }
     }
 }

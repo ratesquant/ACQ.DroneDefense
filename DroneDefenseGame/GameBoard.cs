@@ -4,6 +4,13 @@ using System.Text;
 
 namespace ACQ.DroneDefenceGame
 {
+    public enum enDamageType
+    {
+        Physical,
+        Heat,
+        Optical,
+        EM
+    }
     public interface IPositionable
     {
         Position Position { get; }
@@ -22,9 +29,12 @@ namespace ACQ.DroneDefenceGame
     public interface IDestroyable
     { 
         double HitPoints { get; }
+        bool isAlive { get;  }
+
+        void DoDamage(double damage, enDamageType damage_type);
     }
 
-    public class GridPosition
+    public struct GridPosition
     {
         private int m_row;
         private int m_col;
@@ -61,7 +71,7 @@ namespace ACQ.DroneDefenceGame
         }
 
     }
-    public class Position
+    public struct Position
     {
         private double m_x;
         private double m_y;
@@ -94,6 +104,28 @@ namespace ACQ.DroneDefenceGame
             set
             {
                 m_y = value;
+            }
+        }
+
+        public static Position operator +(Position a, Position b)
+        {
+            return new Position(a.X + b.X, a.Y + b.Y);
+        }
+        public static Position operator -(Position a, Position b)
+        {
+            return new Position(a.X - b.X, a.Y - b.Y);
+        }
+
+        public override string ToString()
+        {
+            return String.Format("({0},{1})", X, Y);
+        }
+
+        public double Length2
+        {
+            get
+            {
+                return m_x * m_x + m_y * m_y;
             }
         }
     }

@@ -30,7 +30,10 @@ namespace ACQ.DroneDefenceGame
         {
             foreach (GameAgent agent in m_board.Agents)
             {
-                agent.UpdatePosition(m_board);
+                if (agent.isAlive)
+                {
+                    agent.UpdatePosition(m_board);
+                }
             }
 
             foreach (GameTower tower in m_board.Towers)

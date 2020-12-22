@@ -21,12 +21,27 @@ namespace ACQ.DroneDefenceGame
                 return m_hp;
             }
         }
+        public bool isAlive
+        {
+            get
+            {
+                return m_hp > 0;
+            }
+        }
 
         public GridPosition Position
         {
             get
             {
                 return m_position;
+            }
+        }
+
+        public void DoDamage(double damage, enDamageType damage_type)
+        {
+            if (damage_type == enDamageType.Physical)
+            {
+                m_hp -= damage;
             }
         }
     }

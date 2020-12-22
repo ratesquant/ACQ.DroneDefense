@@ -23,12 +23,27 @@ namespace ACQ.DroneDefenceGame
                 return m_hp;
             }
         }
+
+        public bool isAlive
+        {
+            get 
+            {
+                return m_hp > 0;
+            }
+        }
+
+
         public Position Position
         {
             get
             {
                 return m_position;
             }
+        }
+
+        public void DoDamage(double damage, enDamageType damage_type)
+        {
+            m_hp -= damage;
         }
     }
 
@@ -40,7 +55,7 @@ namespace ACQ.DroneDefenceGame
         public override void UpdatePosition(GameBoard board)
         {
             if (board == null || board.Camps == null || board.Camps.Count == 0)
-                return;
+                return;            
 
             GameCamp camp = board.Camps[0];
 

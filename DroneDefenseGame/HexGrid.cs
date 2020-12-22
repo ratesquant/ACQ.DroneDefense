@@ -101,11 +101,25 @@ namespace ACQ.DroneDefenceGame
             }
         }
 
+        /// <summary>
+        /// Number of cells
+        /// </summary>
         public int Count
         {
             get 
             {
                 return m_rows * m_cols;
+            }
+        }
+
+        /// <summary>
+        /// cell x-size 
+        /// </summary>
+        public double Size
+        {
+            get
+            {
+                return m_size;
             }
         }
         public void GetCellCenter(int row, int col, out double x, out double y)
@@ -117,6 +131,13 @@ namespace ACQ.DroneDefenceGame
         public void GetCellCenter(GridPosition pos, out double x, out double y)
         {
             GetCellCenter(pos.Row, pos.Col, out x, out y);
+        }
+
+        public Position GetCellCenter(GridPosition pos)
+        {
+            double x, y;
+            GetCellCenter(pos.Row, pos.Col, out x, out y);
+            return new Position(x, y);
         }
 
         public bool IsOnGrid(int row, int col)
