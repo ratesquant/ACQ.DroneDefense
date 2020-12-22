@@ -50,8 +50,8 @@ namespace ACQ.DroneDefenceGame
 
             if(distance > m_speed) 
             {
-                m_position.X = m_position.X + vx * m_speed / distance;
-                m_position.Y = m_position.Y + vy * m_speed / distance;
+                m_position.X = (float)(m_position.X + vx * m_speed / distance);
+                m_position.Y = (float)(m_position.Y + vy * m_speed / distance);
             }
         }
     }

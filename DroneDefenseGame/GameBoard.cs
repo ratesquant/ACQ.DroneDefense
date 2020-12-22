@@ -59,6 +59,7 @@ namespace ACQ.DroneDefenceGame
     public class GameBoard
     {
         private Position m_size;
+        private HexGrid m_grid;
 
         List<GameCamp> m_camps = new List<GameCamp>();
         List<GameTower> m_towers = new List<GameTower>();
@@ -69,7 +70,20 @@ namespace ACQ.DroneDefenceGame
             m_size = size;
 
             m_camps.Add(new GameCamp(basecamp_position));
+
+            int grid_rows = 10;
+            int grid_cols = (int)(grid_rows * (size.X / size.Y) * 0.86207095);
+            m_grid = new HexGrid(grid_rows, grid_cols, size);
         }
+
+        public HexGrid Grid
+        {
+            get
+            {
+                return m_grid;
+            }
+        }
+
 
         public Position Size
         {

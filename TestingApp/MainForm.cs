@@ -20,6 +20,9 @@ namespace TestingApp
 
         string m_selected_tower;
 
+        int m_nMouseXCoord;
+        int m_nMouseYCoord;
+
         private System.Windows.Forms.ToolStripButton[] m_vToolStripButtons;
 
         public MainForm()
@@ -119,8 +122,7 @@ namespace TestingApp
 
             Rectangle rect = pictureBox1.DisplayRectangle;
             rect.Height--;
-            rect.Width--;
-            g.DrawRectangle(bold_pen, rect);
+            rect.Width--;           
 
             //show game board 
             GameBoard board = m_game.Board;
@@ -143,9 +145,46 @@ namespace TestingApp
                 g.DrawEllipse(Pens.Red, new Rectangle((int)agent.Position.X - tower_size / 2, (int)agent.Position.Y - tower_size / 2, tower_size, tower_size));
             }
 
-            //int nSize = m_sudoku_fixed.Size;
-            //int dx = rect.Width / nSize;
-            //int dy = rect.Height / nSize;
+            //draw grid
+            for (int i =0; i<board.Grid.Rows; i++)
+            {
+                for (int j = 0; j < board.Grid.Columns; j++)
+                {
+                    Position cell = board.Grid.GetCellCenter(i, j);
+                    g.FillEllipse(Brushes.Gray, (float)cell.X - 1, (float)cell.Y - 1, 2, 2);
+
+                    List<Position> vertexes = new List<Position>();
+                    for (int k = 0; k < 6; k++)
+                    {
+                        vertexes.Add(board.Grid.GetVertex(i, j, k));
+                    }
+
+                    for (int k = 0; k < 6; k++)
+                    {
+                        g.DrawLine(Pens.LightGray, (float)vertexes[k].X, (float)vertexes[k].Y, (float)vertexes[(k + 1) % 6].X, (float)vertexes[(k + 1) % 6].Y);
+                    }
+                }
+            }
+
+            GridIndex my_cell = board.Grid.GetCell(new Position(m_nMouseXCoord, m_nMouseYCoord));
+
+            if (board.Grid.IsOnGrid(my_cell.Row, my_cell.Col))
+            {
+                Position cell = board.Grid.GetCellCenter(my_cell.Row, my_cell.Col);
+                g.FillEllipse(Brushes.Gray, (float)cell.X - 1, (float)cell.Y - 1, 2, 2);
+
+                List<Position> vertexes = new List<Position>();
+                for (int k = 0; k < 6; k++)
+                {
+                    Position vertex1 = board.Grid.GetVertex(my_cell.Row, my_cell.Col, k);
+                    Position vertex2 = board.Grid.GetVertex(my_cell.Row, my_cell.Col, (k + 1) % 6);
+
+                    g.DrawLine(Pens.Red, (float)vertex1.X, (float)vertex1.Y, (float)vertex2.X, (float)vertex2.Y);
+                }
+            }
+
+
+            g.DrawRectangle(bold_pen, rect);
         }
 
         private void toolStripButton_Click(object sender, EventArgs e)
@@ -168,6 +207,14 @@ namespace TestingApp
 
         private void pictureBox1_MouseClick(object sender, MouseEventArgs e)
         {
+
+            pictureBox1.Refresh();
+        }
+
+        private void pictureBox1_MouseMove(object sender, MouseEventArgs e)
+        {
+            m_nMouseXCoord = e.X;
+            m_nMouseYCoord = e.Y;
 
             pictureBox1.Refresh();
         }
