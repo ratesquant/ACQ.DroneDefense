@@ -50,9 +50,12 @@ namespace TestingApp
         {
             m_game = new GameEngine(new Position(600, 400));
 
-            m_game.Board.Towers.Add(new GunTower(new Position(200, 100)));
-            m_game.Board.Towers.Add(new GunTower(new Position(100, 200)));
-            m_game.Board.Towers.Add(new GunTower(new Position(200, 200)));
+            m_game.Board.Camps.Add(new GameCamp(new GridPosition(1, 1) ));
+
+
+            m_game.Board.Towers.Add(new GunTower(new GridPosition(3, 4)));
+            m_game.Board.Towers.Add(new GunTower(new GridPosition(4, 3)));
+            m_game.Board.Towers.Add(new GunTower(new GridPosition(4, 4)));
 
             m_game.Board.Agents.Add(new SlowWalkerAgent(new Position(500, 400)) );
 
@@ -129,14 +132,19 @@ namespace TestingApp
 
             //draw camps            
             foreach (GameCamp camp in board.Camps)
-            {                
-                g.DrawRectangle(Pens.Blue, new Rectangle((int)camp.Position.X - camp_size / 2, (int)camp.Position.Y - camp_size / 2, camp_size, camp_size));
+            {
+                double cx, cy;
+                board.Grid.GetCellCenter(camp.Position, out cx, out cy);
+                g.DrawRectangle(Pens.Blue, new Rectangle((int)cx - camp_size / 2, (int)cy - camp_size / 2, camp_size, camp_size));
             }
-
+            
             //draw towers            
             foreach (GameTower tower in board.Towers)
             {
-                g.DrawEllipse(Pens.Green, new Rectangle((int)tower.Position.X - tower_size / 2, (int)tower.Position.Y - tower_size / 2, tower_size, tower_size));
+                double cx, cy;
+                board.Grid.GetCellCenter(tower.Position, out cx, out cy);
+
+                g.DrawEllipse(Pens.Green, new Rectangle((int)cx - tower_size / 2, (int)cy - tower_size / 2, tower_size, tower_size));
             }
 
             //draw agents            
@@ -153,7 +161,7 @@ namespace TestingApp
                     double x, y;
                     board.Grid.GetCellCenter(i, j, out x, out y);
                     g.FillEllipse(Brushes.Gray, (float)x - 1, (float)y - 1, 2, 2);
-
+                    
                     List<Position> vertexes = new List<Position>();
                     for (int k = 0; k < 6; k++)
                     {
@@ -166,40 +174,44 @@ namespace TestingApp
                 }
             }
 
-            //draw selected 
+            //draw selected cell
             int row, col;
             board.Grid.FindCell(m_nMouseXCoord, m_nMouseYCoord, out row, out col);
 
             if (board.Grid.IsOnGrid(row, col))
             {
+                SolidBrush cell_brush1 = new SolidBrush(Color.FromArgb(64, Color.SeaGreen.R, Color.SeaGreen.G, Color.SeaGreen.B));
+                SolidBrush cell_brush2 = new SolidBrush(Color.FromArgb(64, Color.Coral.R, Color.Coral.G, Color.Coral.B));
+
+                Point[] vertexes = new Point[HexGrid.NEIGHBORS_COUNT];
+
                 double x, y;
                 board.Grid.GetCellCenter(row, col, out x, out y);
                 g.FillEllipse(Brushes.Gray, (float)x - 1, (float)y - 1, 2, 2);                
                 for (int k = 0; k < 6; k++)
                 {
                     double x1, y1;
-                    double x2, y2;
                     board.Grid.GetVertex(row, col, k, out x1, out y1);
-                    board.Grid.GetVertex(row, col, (k + 1) % 6, out x2, out y2);
-                    g.DrawLine(Pens.Red, (float)x1, (float)y1, (float)x2, (float)y2);
+                    vertexes[k] = new Point((int)x1, (int)y1);                    
                 }
+                g.FillPolygon(cell_brush1, vertexes);
 
-                //draw neighbours 
+                //draw neighbours                 
                 for (int d = 0; d < HexGrid.NEIGHBORS_COUNT; d++)
                 {
                     int n_row, n_col;
                     board.Grid.GetNeighbor(row, col, d, out n_row, out n_col);
 
                     if (board.Grid.IsOnGrid(n_row, n_col))
-                    {
-                        for (int k = 0; k < 6; k++)
+                    {                        
+                        for (int k = 0; k < HexGrid.NEIGHBORS_COUNT; k++)
                         {
                             double x1, y1;
-                            double x2, y2;
                             board.Grid.GetVertex(n_row, n_col, k, out x1, out y1);
-                            board.Grid.GetVertex(n_row, n_col, (k + 1) % 6, out x2, out y2);
-                            g.DrawLine(Pens.Yellow, (float)x1, (float)y1, (float)x2, (float)y2);
+                            vertexes[k] = new Point((int)x1, (int)y1);
                         }
+
+                        g.FillPolygon(cell_brush2, vertexes);
                     }
                 }
             }

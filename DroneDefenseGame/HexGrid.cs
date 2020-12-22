@@ -114,6 +114,11 @@ namespace ACQ.DroneDefenceGame
             y = m_aspect_ratio * (m_size * (1 + row * 1.5));            
         }
 
+        public void GetCellCenter(GridPosition pos, out double x, out double y)
+        {
+            GetCellCenter(pos.Row, pos.Col, out x, out y);
+        }
+
         public bool IsOnGrid(int row, int col)
         {
             return row >= 0 && row < m_rows && col >= 0 && col < m_cols;

@@ -4,11 +4,11 @@ using System.Text;
 
 namespace ACQ.DroneDefenceGame
 {
-    public class GameCamp : IDestroyable, IPositionable
+    public class GameCamp : IDestroyable, IGridPositionable
     {
-        Position m_position;
+        GridPosition m_position;
         double m_hp;
-        public GameCamp(Position position, double hp = 100)
+        public GameCamp(GridPosition position, double hp = 100)
         {
             m_position = position;
             m_hp = hp;
@@ -22,7 +22,7 @@ namespace ACQ.DroneDefenceGame
             }
         }
 
-        public Position Position
+        public GridPosition Position
         {
             get
             {

@@ -9,6 +9,11 @@ namespace ACQ.DroneDefenceGame
         Position Position { get; }
     }
 
+    public interface IGridPositionable
+    {
+        GridPosition Position { get; }
+    }
+
     public interface IMovable
     {
         void UpdatePosition(GameBoard board);
@@ -19,6 +24,43 @@ namespace ACQ.DroneDefenceGame
         double HitPoints { get; }
     }
 
+    public class GridPosition
+    {
+        private int m_row;
+        private int m_col;
+
+        public GridPosition(int row, int col)
+        {
+            m_row = row;
+            m_col = col;
+
+        }
+
+        public int Row
+        {
+            get
+            {
+                return m_row;
+            }
+            set
+            {
+                m_row = value;
+            }
+        }
+
+        public int Col
+        {
+            get
+            {
+                return m_col;
+            }
+            set
+            {
+                m_col = value;
+            }
+        }
+
+    }
     public class Position
     {
         private double m_x;
@@ -65,15 +107,11 @@ namespace ACQ.DroneDefenceGame
         List<GameTower> m_towers = new List<GameTower>();
         List<GameAgent> m_agents = new List<GameAgent>();
 
-        public GameBoard(Position size, Position basecamp_position)
+        public GameBoard(int rows, int cols, Position size)
         {
             m_size = size;
-
-            m_camps.Add(new GameCamp(basecamp_position));
-
-            int grid_rows = 10;
-            int grid_cols = (int)(grid_rows * (size.X / size.Y) * 0.86207095);
-            m_grid = new HexGrid(grid_rows, grid_cols, size);
+            
+            m_grid = new HexGrid(rows, cols, size);
         }
 
         public HexGrid Grid

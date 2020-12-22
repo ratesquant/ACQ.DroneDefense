@@ -44,8 +44,11 @@ namespace ACQ.DroneDefenceGame
 
             GameCamp camp = board.Camps[0];
 
-            double vx = (camp.Position.X - m_position.X);
-            double vy = (camp.Position.Y - m_position.Y);
+            double vx, vy;
+            board.Grid.GetCellCenter(camp.Position.Row, camp.Position.Col, out vx, out vy);
+
+            vx -= m_position.X;
+            vy -= m_position.Y;
             double distance = Math.Sqrt(vx * vx + vy * vy);
 
             if(distance > m_speed) 

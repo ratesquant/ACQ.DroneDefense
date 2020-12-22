@@ -14,7 +14,7 @@ namespace ACQ.DroneDefenceGame
         private enGameStatus m_status;
         public GameEngine(Position size) 
         {
-            m_board = new GameBoard(size, new Position(50, 50));
+            m_board = new GameBoard(10, 12, size);
             m_status = enGameStatus.Live;
         }
 

@@ -11,13 +11,13 @@ namespace ACQ.DroneDefenceGame
         Veteran
     }
 
-    public abstract class GameTower: IPositionable
+    public abstract class GameTower: IGridPositionable
     {
-        private Position m_position;
+        private GridPosition m_position;
         private int m_ammo;
         private List<GameAgent> m_targets;
 
-        public GameTower(Position position, int ammo)
+        public GameTower(GridPosition position, int ammo)
         {
             m_position = position;
             m_ammo = ammo;
@@ -43,7 +43,7 @@ namespace ACQ.DroneDefenceGame
             }
         }
 
-        public Position Position
+        public GridPosition Position
         {
             get
             {
@@ -54,7 +54,7 @@ namespace ACQ.DroneDefenceGame
 
     public class GunTower : GameTower
     { 
-        public GunTower(Position position, int ammo = 100) : base(position, ammo)
+        public GunTower(GridPosition position, int ammo = 100) : base(position, ammo)
         {}
 
         public override void Update(GameBoard board)
@@ -64,7 +64,7 @@ namespace ACQ.DroneDefenceGame
 
     public class CannonTower : GameTower
     {
-        public CannonTower(Position position, int ammo = 100) : base(position, ammo)
+        public CannonTower(GridPosition position, int ammo = 100) : base(position, ammo)
         { }
         public override void Update(GameBoard board)
         {
@@ -73,7 +73,7 @@ namespace ACQ.DroneDefenceGame
 
     public class LaserTower : GameTower
     {
-        public LaserTower(Position position, int ammo = 100) : base(position, ammo)
+        public LaserTower(GridPosition position, int ammo = 100) : base(position, ammo)
         { }
         public override void Update(GameBoard board)
         {
@@ -82,7 +82,7 @@ namespace ACQ.DroneDefenceGame
 
     public class MissileTower : GameTower
     {
-        public MissileTower(Position position, int ammo = 100) : base(position, ammo)
+        public MissileTower(GridPosition position, int ammo = 100) : base(position, ammo)
         { }
         public override void Update(GameBoard board)
         {
@@ -91,7 +91,7 @@ namespace ACQ.DroneDefenceGame
 
     public class MicrowaveTower : GameTower
     {
-        public MicrowaveTower(Position position, int ammo = 100) : base(position, ammo)
+        public MicrowaveTower(GridPosition position, int ammo = 100) : base(position, ammo)
         { }
         public override void Update(GameBoard board)
         {
@@ -100,7 +100,7 @@ namespace ACQ.DroneDefenceGame
 
     public class ECMTower : GameTower
     {
-        public ECMTower(Position position, int ammo = 100) : base(position, ammo)
+        public ECMTower(GridPosition position, int ammo = 100) : base(position, ammo)
         { }
         public override void Update(GameBoard board)
         {
