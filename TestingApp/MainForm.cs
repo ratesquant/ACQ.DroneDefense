@@ -59,6 +59,8 @@ namespace TestingApp
 
             m_game.Board.Agents.Add(new SlowWalkerAgent(new Position(400, 300)) );
             m_game.Board.Agents.Add(new SlowWalkerAgent(new Position(300, 400)) );
+            m_game.Board.Agents.Add(new SlowWalkerAgent(new Position(350, 400)));
+            m_game.Board.Agents.Add(new SlowWalkerAgent(new Position(300, 450)));
             m_game.Board.Agents.Add(new SlowWalkerAgent(new Position(400, 400)) );
 
         }
@@ -115,7 +117,7 @@ namespace TestingApp
             int tower_size = 6;
             int agent_size = 6;
 
-            bool drawHexGrid = false;
+            bool drawHexGrid = true;
 
             //Show board
             Graphics g = e.Graphics;

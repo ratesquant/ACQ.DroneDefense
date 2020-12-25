@@ -71,6 +71,31 @@ namespace ACQ.DroneDefenceGame
             //m_aspect_ratio = 1.0;
         }
 
+        public HexGrid(int rows, int cols, double size)
+        {
+            m_rows = rows;
+            m_cols = cols;
+
+            m_size = size;            
+            m_aspect_ratio = 1.0;
+        }
+
+        public double Width
+        {
+            get 
+            {
+                return HexGrid.TotalWidth(m_cols) * m_size;
+            }
+        }
+
+        public double Height
+        {
+            get
+            {
+                return HexGrid.TotalHeight(m_rows) * m_size;
+            }
+        }
+
         public static double TotalWidth(int columns)
         {
             return SQRT3 * (columns + 0.5);
