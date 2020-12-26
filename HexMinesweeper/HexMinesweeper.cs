@@ -125,14 +125,15 @@ namespace HexMinesweeper
         protected bool TryOpenCell(int i, int j)
         {
             bool status = false;
-
-            if (m_board[i, j] == -1) // check is there is a mine
-            {
-                m_activated_mine = j + m_grid.Columns * i;
-                status = true;
-            }
+            
             if (m_board_status[i, j] == enCellStatus.Closed) //check that cell is closed
             {
+                if (m_board[i, j] == -1) // check if there is a mine
+                {
+                    m_activated_mine = j + m_grid.Columns * i;
+                    status = true;
+                }
+
                 m_board_status[i, j] = enCellStatus.Open;
                 status = true;
 
@@ -195,20 +196,17 @@ namespace HexMinesweeper
         protected bool TryFlagCell(int i, int j)
         {
             bool flagged = false;
-
-            if (isOnGrid(i, j))
+            
+            enCellStatus status = m_board_status[i, j];
+            if (status == enCellStatus.Closed)
             {
-                enCellStatus status = m_board_status[i, j];
-                if (status == enCellStatus.Closed)
-                {
-                    m_board_status[i, j] = enCellStatus.Flagged;
-                    flagged = true;
-                }
-                else if (status == enCellStatus.Flagged)
-                {
-                    m_board_status[i, j] = enCellStatus.Closed;
-                    flagged = true;
-                }
+                m_board_status[i, j] = enCellStatus.Flagged;
+                flagged = true;
+            }
+            else if (status == enCellStatus.Flagged)
+            {
+                m_board_status[i, j] = enCellStatus.Closed;
+                flagged = true;
             }
             return flagged;
         }
