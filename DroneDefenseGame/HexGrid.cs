@@ -170,14 +170,14 @@ namespace ACQ.DroneDefenceGame
             return row >= 0 && row < m_rows && col >= 0 && col < m_cols;
         }
         /// <summary>
-        /// Iterate grid position of the neighbor cells, not all neighbors of boundary cells are on the grid, check IsOnGrid  
+        /// Iterate grid position of the neighbor cells, returns false if neighbor is not on the grid
         /// </summary>
         /// <param name="row"></param>
         /// <param name="col"></param>
         /// <param name="direction"></param>
         /// <param name="n_row"></param>
         /// <param name="n_col"></param>
-        public void GetNeighbor(int row, int col, int direction, out int n_row, out int n_col)
+        public bool GetNeighbor(int row, int col, int direction, out int n_row, out int n_col)
         {            
             System.Diagnostics.Debug.Assert(direction >= 0 && direction < NEIGHBORS_COUNT);
 
@@ -190,6 +190,7 @@ namespace ACQ.DroneDefenceGame
                 n_row = row + m_neighbor_offsets_odd[direction, 0];
                 n_col = col + m_neighbor_offsets_odd[direction, 1];
             }
+            return IsOnGrid(n_row, n_col);
         }
 
         public void GetVertex(int row, int col, int direction, out double x, out double y)
