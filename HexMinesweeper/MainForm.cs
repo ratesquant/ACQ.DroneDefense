@@ -63,7 +63,12 @@ namespace HexMinesweeper
         private void pictureBox1_Paint(object sender, PaintEventArgs e)
         {
             bool drawHexGrid = true;
-            bool showMines = true;
+            bool showMines = m_game.Status == enGameStatus.Lost;
+
+#if DEBUG
+            showMines = true;
+#endif
+
             //Show board
             Graphics g = e.Graphics;
             g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
