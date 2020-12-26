@@ -62,6 +62,9 @@ namespace HexMinesweeper
 
         private void pictureBox1_Paint(object sender, PaintEventArgs e)
         {
+            int mine_size = 10;
+            int flag_size = 10;
+
             bool drawHexGrid = true;
             bool showMines = m_game.Status == enGameStatus.Lost;
 
@@ -114,15 +117,12 @@ namespace HexMinesweeper
                             g.FillPolygon(Brushes.Gray, vertexes);
 
                         if (m_game.isMine(i, j) && showMines) 
-                        {
-                            int mine_size = 10;
+                        {                            
                             g.FillEllipse(Brushes.Black, (float)x - mine_size/2, (float)y - mine_size / 2, mine_size, mine_size);
                         }
 
                         if (m_game.isFlagged(i, j))
                         {
-                            int flag_size = 10;                            
-
                             g.FillEllipse(Brushes.Red, (float)x - flag_size / 2, (float)y - flag_size / 2, flag_size, flag_size);                            
                         }
 
@@ -132,6 +132,25 @@ namespace HexMinesweeper
                             if(hint>0 && hint <=6)
                                 g.DrawString(hint.ToString(), hint_font, hint_brush[hint], (float)x, (float)y, hint_format);
                         }
+                    }
+                }
+
+                if (m_game.Status == enGameStatus.Lost)
+                {
+                    int i = 0, j = 0;
+                    if (m_game.TryGetActivatedMine(ref i, ref j))
+                    {
+                        double x, y;
+                        m_game.Grid.GetCellCenter(i, j, out x, out y);
+
+                        for (int k = 0; k < HexGrid.NEIGHBORS_COUNT; k++)
+                        {
+                            double x1, y1;
+                            m_game.Grid.GetVertex(i, j, k, out x1, out y1);
+                            vertexes[k] = new Point((int)x1, (int)y1);
+                        }
+                        g.FillPolygon(Brushes.Red, vertexes);
+                        g.FillEllipse(Brushes.Black, (float)x - mine_size / 2, (float)y - mine_size / 2, mine_size, mine_size);
                     }
                 }
 

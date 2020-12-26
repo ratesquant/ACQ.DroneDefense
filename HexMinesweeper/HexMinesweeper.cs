@@ -108,6 +108,19 @@ namespace HexMinesweeper
             }
         }
 
+        public bool TryGetActivatedMine(ref int i, ref int j) 
+        {
+            if (m_activated_mine > 0)
+            {
+                i = m_activated_mine / m_grid.Columns;
+                j = m_activated_mine % m_grid.Columns;
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
 
         protected bool TryOpenCell(int i, int j)
         {
