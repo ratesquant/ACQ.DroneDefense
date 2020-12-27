@@ -37,7 +37,7 @@ namespace HexMinesweeper
         }
         void InitGame()
         {
-            double cell_size = 15.0;
+            float cell_size = 15.0f;
 
             switch (m_game_level)
             {
@@ -62,8 +62,8 @@ namespace HexMinesweeper
 
         private void pictureBox1_Paint(object sender, PaintEventArgs e)
         {
-            int mine_size = 10;
-            int flag_size = 10;
+            float mine_size = 10;
+            float flag_size = 10;
 
             bool drawHexGrid = true;
             bool showMines = m_game.Status == enGameStatus.Lost;
@@ -95,20 +95,20 @@ namespace HexMinesweeper
             //draw hex = grid
             if (drawHexGrid)
             {
-                Point[] vertexes = new Point[HexGrid.NEIGHBORS_COUNT];
+                PointF[] vertexes = new PointF[HexGrid.NEIGHBORS_COUNT];
 
                 for (int i = 0; i < m_game.Grid.Rows; i++)
                 {
                     for (int j = 0; j < m_game.Grid.Columns; j++)
                     {
-                        double x, y;
+                        float x, y;
                         m_game.Grid.GetCellCenter(i, j, out x, out y);
 
                         for (int k = 0; k < HexGrid.NEIGHBORS_COUNT; k++)
                         {
-                            double x1, y1;
+                            float x1, y1;
                             m_game.Grid.GetVertex(i, j, k, out x1, out y1);
-                            vertexes[k] = new Point((int)x1, (int)y1);
+                            vertexes[k] = new PointF(x1, y1);
                         }
 
                         if (m_game.isOpen(i, j))
@@ -118,19 +118,19 @@ namespace HexMinesweeper
 
                         if (m_game.isMine(i, j) && showMines) 
                         {                            
-                            g.FillEllipse(Brushes.Black, (float)x - mine_size/2, (float)y - mine_size / 2, mine_size, mine_size);
+                            g.FillEllipse(Brushes.Black, x - mine_size/2, y - mine_size / 2, mine_size, mine_size);
                         }
 
                         if (m_game.isFlagged(i, j))
                         {
-                            g.FillEllipse(Brushes.Red, (float)x - flag_size / 2, (float)y - flag_size / 2, flag_size, flag_size);                            
+                            g.FillEllipse(Brushes.Red, x - flag_size / 2, y - flag_size / 2, flag_size, flag_size);                            
                         }
 
                         int hint = 0;
                         if (m_game.GetHint(i, j, ref hint))
                         {
                             if(hint>0 && hint <=6)
-                                g.DrawString(hint.ToString(), hint_font, hint_brush[hint], (float)x, (float)y, hint_format);
+                                g.DrawString(hint.ToString(), hint_font, hint_brush[hint], x, y, hint_format);
                         }
                     }
                 }
@@ -140,17 +140,17 @@ namespace HexMinesweeper
                     int i = 0, j = 0;
                     if (m_game.TryGetActivatedMine(ref i, ref j))
                     {
-                        double x, y;
+                        float x, y;
                         m_game.Grid.GetCellCenter(i, j, out x, out y);
 
                         for (int k = 0; k < HexGrid.NEIGHBORS_COUNT; k++)
                         {
-                            double x1, y1;
+                            float x1, y1;
                             m_game.Grid.GetVertex(i, j, k, out x1, out y1);
-                            vertexes[k] = new Point((int)x1, (int)y1);
+                            vertexes[k] = new PointF(x1, y1);
                         }
                         g.FillPolygon(Brushes.Red, vertexes);
-                        g.FillEllipse(Brushes.Black, (float)x - mine_size / 2, (float)y - mine_size / 2, mine_size, mine_size);
+                        g.FillEllipse(Brushes.Black, x - mine_size / 2, y - mine_size / 2, mine_size, mine_size);
                     }
                 }
 
@@ -159,14 +159,14 @@ namespace HexMinesweeper
 
                 if (m_game.Grid.IsOnGrid(row, col))
                 {
-                    double x, y;
+                    float x, y;
                     m_game.Grid.GetCellCenter(row, col, out x, out y);
 
                     for (int k = 0; k < HexGrid.NEIGHBORS_COUNT; k++)
                     {
-                        double x1, y1;
+                        float x1, y1;
                         m_game.Grid.GetVertex(row, col, k, out x1, out y1);
-                        vertexes[k] = new Point((int)x1, (int)y1);
+                        vertexes[k] = new PointF(x1, y1);
                     }
 
                     if (!m_game.isOpen(row, col) && !m_game.isFlagged(row, col))

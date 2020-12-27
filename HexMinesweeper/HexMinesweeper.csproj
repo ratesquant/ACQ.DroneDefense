@@ -82,13 +82,13 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\Mine.bmp" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\DroneDefenseGame\DroneDefenceGame.csproj">
       <Project>{1154eea6-5261-420b-a31d-fe1673d99cf8}</Project>
       <Name>DroneDefenceGame</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Mine.bmp" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

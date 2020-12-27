@@ -33,7 +33,7 @@ namespace HexMinesweeper
         int m_activated_mine = -1; //game over if mine gets activated
         int m_total_mines;
 
-        public HexMinesweeper(int rows, int cols, int mines, double cell_size)
+        public HexMinesweeper(int rows, int cols, int mines, float cell_size)
         {
             m_grid = new HexGrid(rows, cols, cell_size);
             m_board = new int[rows, cols];
@@ -68,9 +68,8 @@ namespace HexMinesweeper
                         for (int k = 0; k < HexGrid.NEIGHBORS_COUNT; k++)
                         {
                             int ni, nj;
-                            m_grid.GetNeighbor(i, j, k, out ni, out nj);
-
-                            if (m_grid.IsOnGrid(ni, nj))
+                            
+                            if (m_grid.TryGetNeighbor(i, j, k, out ni, out nj))
                             {
                                 if (m_board[ni, nj] >= 0)
                                     m_board[ni, nj] += 1;
@@ -156,7 +155,7 @@ namespace HexMinesweeper
                             for (int k = 0; k < HexGrid.NEIGHBORS_COUNT; k++)
                             {
                                 int ni, nj;
-                                if (m_grid.GetNeighbor(ki, kj, k, out ni, out nj) && m_board[ni, nj] >=0 && m_board_status[ni, nj] == enCellStatus.Closed)
+                                if (m_grid.TryGetNeighbor(ki, kj, k, out ni, out nj) && m_board[ni, nj] >=0 && m_board_status[ni, nj] == enCellStatus.Closed)
                                 {
                                     m_board_status[ni, nj] = enCellStatus.Open;
 
