@@ -15,13 +15,14 @@ namespace ACQ.DroneDefenceGame
     {
         private GridPosition m_position;
         private int m_ammo;
-        protected List<GameAgent> m_targets;
+        protected LinkedList<GameAgent> m_targets;
+
 
         public GameTower(GridPosition position, int ammo)
         {
             m_position = position;
             m_ammo = ammo;
-            m_targets = new List<GameAgent>();
+            m_targets = new LinkedList<GameAgent>();
         }
         int Ammo
         {
@@ -36,7 +37,7 @@ namespace ACQ.DroneDefenceGame
         }
         public abstract void Update(GameBoard board);
 
-        public List<GameAgent> CurrentTarget
+        public LinkedList<GameAgent> CurrentTarget
         {
             get 
             {
@@ -55,7 +56,7 @@ namespace ACQ.DroneDefenceGame
 
     public class GunTower : GameTower
     { 
-        private readonly double m_range = 2;
+        private readonly double m_range = 3;
         private readonly double m_damage = 1;
 
         public GunTower(GridPosition position, int ammo = 100) : base(position, ammo)
@@ -71,22 +72,32 @@ namespace ACQ.DroneDefenceGame
 
             bool shots_fired = false;
 
+            LinkedList<GameAgent> dead_targets = new LinkedList<GameAgent>();
             //check existing targets
-            for (int i = 0; i < m_targets.Count; i++)
+            foreach (GameAgent target in m_targets)
             {
-                if (m_targets[i].isAlive) 
+                if (target.isAlive)
                 {
-                    double temp = (m_targets[i].Position - tower_position).Length2;
+                    double temp = (target.Position - tower_position).Length2;
 
                     if (temp < range2)
                     {
-                        m_targets[i].DoDamage(m_damage, enDamageType.Physical);
+                        target.DoDamage(m_damage, enDamageType.Physical);
                         shots_fired = true;
                         break;
                     }
-
-                }                
+                }
+                else
+                {
+                    dead_targets.AddLast(target);
+                }
             }
+
+            foreach (GameAgent t in dead_targets) 
+            {
+                m_targets.Remove(t);
+            }
+            
 
             //find closest target and shot it
             if (shots_fired == false)
@@ -114,7 +125,7 @@ namespace ACQ.DroneDefenceGame
 
                     agent.DoDamage(m_damage, enDamageType.Physical);
                     // board.Agents[closest_agent]
-                    m_targets.Add(agent);
+                    m_targets.AddLast(agent);
                 }
             }
         }

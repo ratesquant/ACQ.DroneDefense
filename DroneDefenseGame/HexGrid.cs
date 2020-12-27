@@ -148,7 +148,7 @@ namespace ACQ.DroneDefenceGame
         /// <summary>
         /// cell x-size 
         /// </summary>
-        public double Size
+        public float Size
         {
             get
             {

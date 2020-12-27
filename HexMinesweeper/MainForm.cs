@@ -29,15 +29,15 @@ namespace HexMinesweeper
           
             InitGame();
 
-            this.SetStyle(ControlStyles.DoubleBuffer, true);
+            this.SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
             this.SetStyle(ControlStyles.UserPaint, true);
-            this.SetStyle(ControlStyles.AllPaintingInWmPaint, true);
+            this.SetStyle(ControlStyles.AllPaintingInWmPaint, true);            
 
             this.timer1.Start();
         }
         void InitGame()
         {
-            float cell_size = 15.0f;
+            float cell_size = 16.0f;
 
             switch (m_game_level)
             {
@@ -96,11 +96,16 @@ namespace HexMinesweeper
             if (drawHexGrid)
             {
                 PointF[] vertexes = new PointF[HexGrid.NEIGHBORS_COUNT];
+                PointF[] top_edges = new PointF[3];
+                PointF[] bottom_edges = new PointF[5];
 
                 for (int i = 0; i < m_game.Grid.Rows; i++)
                 {
                     for (int j = 0; j < m_game.Grid.Columns; j++)
                     {
+                        bool open_cell = m_game.isOpen(i, j);
+                        float shrink = (open_cell ? 0.0f : 1.2f) / m_game.Grid.Size;                        
+
                         float x, y;
                         m_game.Grid.GetCellCenter(i, j, out x, out y);
 
@@ -108,13 +113,27 @@ namespace HexMinesweeper
                         {
                             float x1, y1;
                             m_game.Grid.GetVertex(i, j, k, out x1, out y1);
-                            vertexes[k] = new PointF(x1, y1);
+
+                            vertexes[k] = new PointF(x1 + shrink * (x - x1), y1 + shrink * (y - y1) );
+                            if(k < bottom_edges.Length)
+                                bottom_edges[k] = vertexes[k];
                         }
 
-                        if (m_game.isOpen(i, j))
+                        top_edges[0] = vertexes[HexGrid.NEIGHBORS_COUNT - 2];
+                        top_edges[1] = vertexes[HexGrid.NEIGHBORS_COUNT - 1];
+                        top_edges[2] = vertexes[0];
+
+                        if (open_cell)
+                        {
                             g.FillPolygon(Brushes.Silver, vertexes);
+                            g.DrawPolygon(Pens.Gray, vertexes);
+                        }
                         else
-                            g.FillPolygon(Brushes.Gray, vertexes);
+                        {
+                            g.FillPolygon(Brushes.Silver, vertexes);
+                            g.DrawLines(Pens.White, top_edges);
+                            g.DrawLines(Pens.Gray, bottom_edges);
+                        }
 
                         if (m_game.isMine(i, j) && showMines) 
                         {                            

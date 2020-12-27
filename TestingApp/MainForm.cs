@@ -53,7 +53,7 @@ namespace TestingApp
             m_game.Board.Camps.Add(new GameCamp(new GridPosition(1, 1) ));
 
 
-            m_game.Board.Towers.Add(new GunTower(new GridPosition(3, 4)));
+            m_game.Board.Towers.Add(new GunTower(new GridPosition(6, 3)));
             m_game.Board.Towers.Add(new GunTower(new GridPosition(4, 3)));
             m_game.Board.Towers.Add(new GunTower(new GridPosition(4, 4)));
             m_game.Board.Towers.Add(new GunTower(new GridPosition(3, 1)));
@@ -66,7 +66,7 @@ namespace TestingApp
             //m_game.Board.Agents.Add(new SlowWalkerAgent(new Position(300, 450)));
             //m_game.Board.Agents.Add(new SlowWalkerAgent(new Position(400, 400)) );
 
-            m_game.Board[3, 4] = enCellType.Blocked;
+            m_game.Board[6, 3] = enCellType.Blocked;
             m_game.Board[4, 3] = enCellType.Blocked;
             m_game.Board[4, 4] = enCellType.Blocked;
             m_game.Board[3, 1] = enCellType.Blocked;
@@ -207,6 +207,11 @@ namespace TestingApp
                 board.Grid.GetCellCenter(tower.Position, out cx, out cy);
 
                 g.DrawEllipse(Pens.Green, cx - tower_size / 2, cy - tower_size / 2, tower_size, tower_size);
+
+                foreach (GameAgent target in tower.CurrentTarget)
+                {
+                    g.DrawLine(Pens.AliceBlue, cx, cy, target.Position.X, target.Position.Y);
+                }
             }
 
             //draw agents            

@@ -15,5 +15,10 @@ namespace ACQ.DroneDefenceGame
         {
             return x * x;
         }
+
+        public static float Bound(float value, float min, float max)
+        {
+            return Math.Max(min, Math.Min(value, max));
+        }
     }
 }
