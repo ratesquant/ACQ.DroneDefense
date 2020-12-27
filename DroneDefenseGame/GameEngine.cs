@@ -14,7 +14,7 @@ namespace ACQ.DroneDefenceGame
         private enGameStatus m_status;
         public GameEngine(Position size) 
         {
-            m_board = new GameBoard(10, 12, size);
+            m_board = new GameBoard(11, 12, size);
             m_status = enGameStatus.Live;
         }
 
@@ -32,13 +32,18 @@ namespace ACQ.DroneDefenceGame
             {
                 if (agent.isAlive)
                 {
-                    agent.UpdatePosition(m_board);
+                    agent.Update(m_board);
                 }
             }
 
             foreach (GameTower tower in m_board.Towers)
             {
                 tower.Update(m_board);
+            }
+
+            foreach (GameAgentLauncher launcher in m_board.Launchers)
+            {
+                launcher.Update(m_board);
             }
         }
 

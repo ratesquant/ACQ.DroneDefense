@@ -44,17 +44,17 @@ namespace ACQ.DroneDefenceGame
         // double width row_d = row, col_d = 2*col + row % 2
         //
         readonly int m_rows, m_cols;
-        readonly double m_size; //x-size of the hex-edge, y-size  is m_size * m_aspect_ratio
-        readonly double m_aspect_ratio;
+        readonly float m_size; //x-size of the hex-edge, y-size  is m_size * m_aspect_ratio
+        readonly float m_aspect_ratio;
 
         public const int NEIGHBORS_COUNT = 6;
 
-        private const double SQRT3 = 1.7320508075688772935274463415059; //Math.Sqrt(3);
-        private const double SQRT3h = 0.86602540378443864676372317075294;// 0.5*Math.Sqrt(3);
+        private const float SQRT3 = 1.7320508075688772935274463415059f; //Math.Sqrt(3);
+        private const float SQRT3h = 0.86602540378443864676372317075294f;// 0.5*Math.Sqrt(3);
 
         readonly int[,] m_neighbor_offsets_odd  = new int[,] { { -1, 1 }, { 0, 1 }, { 1, 1 }, { 1, 0 }, { 0, -1 }, { -1, 0 } }; //clockwise from 1 o'clock -> (1, 3, 5, 7, 9, 11)
         readonly int[,] m_neighbor_offsets_even = new int[,] { { -1, 0 }, { 0, 1 }, { 1, 0 }, { 1, -1 }, { 0, -1 }, { -1, -1 } }; //clockwise from 1 o'clock -> (1, 3, 5, 7, 9, 11)
-        readonly double[,] m_vertex_offsets = new double[,] { { 0, -1 }, { SQRT3h, -0.5 }, { SQRT3h, 0.5 }, { 0, 1 }, { -SQRT3h, 0.5 }, { -SQRT3h, -0.5 } }; //clockwise from 12 o'clock -> (12, 2, 4, 6, 8, 10)
+        readonly float[,] m_vertex_offsets = new float[,] { { 0, -1 }, { SQRT3h, -0.5f }, { SQRT3h, 0.5f }, { 0, 1 }, { -SQRT3h, 0.5f }, { -SQRT3h, -0.5f } }; //clockwise from 12 o'clock -> (12, 2, 4, 6, 8, 10)
 
 
         // width = sqrt(3) * size
@@ -67,17 +67,17 @@ namespace ACQ.DroneDefenceGame
 
             m_size = size.X / HexGrid.TotalWidth(m_cols);
 
-            m_aspect_ratio = size.Y / (m_size * HexGrid.TotalHeight(m_rows));
-            //m_aspect_ratio = 1.0;
+            //m_aspect_ratio = size.Y / (m_size * HexGrid.TotalHeight(m_rows));
+            m_aspect_ratio = 1.0f;
         }
 
-        public HexGrid(int rows, int cols, double size)
+        public HexGrid(int rows, int cols, float size)
         {
             m_rows = rows;
             m_cols = cols;
 
             m_size = size;            
-            m_aspect_ratio = 1.0;
+            m_aspect_ratio = 1.0f;
         }
 
         public double Width
@@ -96,16 +96,24 @@ namespace ACQ.DroneDefenceGame
             }
         }
 
-        public static double TotalWidth(int columns)
+        public static float DistanceBetweenCells
         {
-            return SQRT3 * (columns + 0.5);
-        }
-        public static double TotalHeight(int rows)
-        {
-            return (2 + 1.5 * (rows - 1));
+            get 
+            {
+                return SQRT3;
+            }
         }
 
-        public static double AspectRatio(int rows, int columns)
+        public static float TotalWidth(int columns)
+        {
+            return SQRT3 * (columns + 0.5f);
+        }
+        public static float TotalHeight(int rows)
+        {
+            return (2 + 1.5f * (rows - 1));
+        }
+
+        public static float AspectRatio(int rows, int columns)
         {
             return TotalHeight(rows)/ TotalWidth(columns);
         }
@@ -147,20 +155,20 @@ namespace ACQ.DroneDefenceGame
                 return m_size;
             }
         }
-        public void GetCellCenter(int row, int col, out double x, out double y)
+        public void GetCellCenter(int row, int col, out float x, out float y)
         {
             x = SQRT3h * (1 + 2 * col + (row % 2)) * m_size;
-            y = m_aspect_ratio * (m_size * (1 + row * 1.5));            
+            y = m_aspect_ratio * (m_size * (1 + row * 1.5f));            
         }
 
-        public void GetCellCenter(GridPosition pos, out double x, out double y)
+        public void GetCellCenter(GridPosition pos, out float x, out float y)
         {
             GetCellCenter(pos.Row, pos.Col, out x, out y);
         }
 
         public Position GetCellCenter(GridPosition pos)
         {
-            double x, y;
+            float x, y;
             GetCellCenter(pos.Row, pos.Col, out x, out y);
             return new Position(x, y);
         }
@@ -177,14 +185,20 @@ namespace ACQ.DroneDefenceGame
         /// <param name="direction"></param>
         /// <param name="n_row"></param>
         /// <param name="n_col"></param>
-        public bool GetNeighbor(int row, int col, int direction, out int n_row, out int n_col)
-        {            
-            System.Diagnostics.Debug.Assert(direction >= 0 && direction < NEIGHBORS_COUNT);
+        public bool TryGetNeighbor(int row, int col, int direction, out int n_row, out int n_col)
+        {
+            if (!(direction >= 0 && direction < NEIGHBORS_COUNT))
+            {
+                n_row = -1;
+                n_col = -1;
+                return false;
+            }
 
             if (row % 2 == 0)
             {
                 n_row = row + m_neighbor_offsets_even[direction, 0];
-                n_col = col + m_neighbor_offsets_even[direction, 1];            }
+                n_col = col + m_neighbor_offsets_even[direction, 1];            
+            }
             else
             {
                 n_row = row + m_neighbor_offsets_odd[direction, 0];
@@ -193,9 +207,9 @@ namespace ACQ.DroneDefenceGame
             return IsOnGrid(n_row, n_col);
         }
 
-        public void GetVertex(int row, int col, int direction, out double x, out double y)
+        public void GetVertex(int row, int col, int direction, out float x, out float y)
         {
-            double x_center, y_center;
+            float x_center, y_center;
 
             GetCellCenter(row, col, out x_center, out y_center);
 

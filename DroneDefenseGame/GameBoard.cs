@@ -4,6 +4,11 @@ using System.Text;
 
 namespace ACQ.DroneDefenceGame
 {
+    public enum enCellType
+    {
+        Free,
+        Blocked
+    }
     public enum enDamageType
     {
         Physical,
@@ -23,7 +28,7 @@ namespace ACQ.DroneDefenceGame
 
     public interface IMovable
     {
-        void UpdatePosition(GameBoard board);
+        void Update(GameBoard board);
     }
 
     public interface IDestroyable
@@ -71,19 +76,38 @@ namespace ACQ.DroneDefenceGame
         }
 
     }
+
+    public class MyPathNode : IPathNode<GameBoard>
+    {
+        int i, j;
+        public MyPathNode(int row, int col)
+        {
+            i = row;
+            j = col;
+        }
+
+        public int x { get { return j; }}
+        public int y { get { return i; }}
+     
+        public bool IsWalkable(GameBoard board)
+        {
+            return board[i,j] == enCellType.Free;
+        }
+    }
+
     public struct Position
     {
-        private double m_x;
-        private double m_y;
+        private float m_x;
+        private float m_y;
 
-        public Position(double x, double y) 
+        public Position(float x, float y) 
         {
             m_x = x;
             m_y = y;
 
         }
 
-        public double X
+        public float X
         {
             get
             {
@@ -95,7 +119,7 @@ namespace ACQ.DroneDefenceGame
             }
         }
 
-        public double Y
+        public float Y
         {
             get
             {
@@ -134,16 +158,32 @@ namespace ACQ.DroneDefenceGame
     {
         private Position m_size;
         private HexGrid m_grid;
+        private enCellType[,] m_cell_types;
 
         List<GameCamp> m_camps = new List<GameCamp>();
         List<GameTower> m_towers = new List<GameTower>();
         List<GameAgent> m_agents = new List<GameAgent>();
+        List<GameAgentLauncher> m_launchers = new List<GameAgentLauncher>();
 
         public GameBoard(int rows, int cols, Position size)
         {
             m_size = size;
             
             m_grid = new HexGrid(rows, cols, size);
+
+            m_cell_types = new enCellType[rows, cols];
+        }
+
+        public enCellType this[int i, int j]
+        {
+            get
+            {
+                return m_cell_types[i, j];
+            }
+            set
+            {
+                m_cell_types[i, j] = value;
+            }
         }
 
         public HexGrid Grid
@@ -153,7 +193,6 @@ namespace ACQ.DroneDefenceGame
                 return m_grid;
             }
         }
-
 
         public Position Size
         {
@@ -185,6 +224,44 @@ namespace ACQ.DroneDefenceGame
             {
                 return m_camps;
             }
+        }
+
+        public List<GameAgentLauncher> Launchers
+        {
+            get
+            {
+                return m_launchers;
+            }
+        }        
+
+        public List<GridPosition> GetPath(GridPosition pos_from, GridPosition pos_to)
+        {
+            MyPathNode[,] grid = new MyPathNode[m_grid.Columns, m_grid.Rows];
+
+            for (int i = 0; i < m_grid.Rows; i++)
+            {
+                for (int j = 0; j < m_grid.Columns; j++)
+                {
+                    grid[j, i] = new MyPathNode(i, j);
+                }
+            }
+
+            PathSolver<MyPathNode, GameBoard> aStar = new PathSolver<MyPathNode, GameBoard>(grid, m_grid);
+
+            IEnumerable<MyPathNode> path = aStar.Search(new Node(pos_from.Col, pos_from.Row), new Node(pos_to.Col, pos_to.Row), this);
+
+            List<GridPosition> res = new List<GridPosition>();
+
+            if (path != null)
+            {
+                foreach (MyPathNode p in path)
+                {
+                    res.Add(new GridPosition(p.y, p.x));
+                }
+            }
+
+            return res;
+
         }
     }
 }

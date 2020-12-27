@@ -38,7 +38,10 @@ namespace TestingApp
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolStripStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStrip1.SuspendLayout();
+            this.statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -82,6 +85,9 @@ namespace TestingApp
             // 
             // statusStrip1
             // 
+            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripStatusLabel1,
+            this.toolStripStatusLabel2});
             this.statusStrip1.Location = new System.Drawing.Point(0, 428);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Size = new System.Drawing.Size(800, 22);
@@ -104,6 +110,18 @@ namespace TestingApp
             // 
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
+            // toolStripStatusLabel1
+            // 
+            this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
+            this.toolStripStatusLabel1.Size = new System.Drawing.Size(118, 17);
+            this.toolStripStatusLabel1.Text = "toolStripStatusLabel1";
+            // 
+            // toolStripStatusLabel2
+            // 
+            this.toolStripStatusLabel2.Name = "toolStripStatusLabel2";
+            this.toolStripStatusLabel2.Size = new System.Drawing.Size(118, 17);
+            this.toolStripStatusLabel2.Text = "toolStripStatusLabel2";
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -119,6 +137,8 @@ namespace TestingApp
             this.Text = "DroneDefense";
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
+            this.statusStrip1.ResumeLayout(false);
+            this.statusStrip1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -134,6 +154,8 @@ namespace TestingApp
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.Timer timer1;
         private System.Windows.Forms.ToolStripButton toolStripButton1;
+        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
+        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel2;
     }
 }
 
