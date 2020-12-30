@@ -90,5 +90,8 @@
       <Name>DroneDefenceGame</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="face.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -236,7 +236,7 @@ namespace HexMinesweeper
             }
             else
             {
-                this.toolStripStatusLabel1.Text = String.Format("Mines: {0}, Flagged: {1}, Time: {2}", m_game.MineCount, m_game.FlagCount, (DateTime.Now - m_game_start_time).ToString(@"hh\:mm\:ss"));
+                this.toolStripStatusLabel1.Text = String.Format("Found: {1} out of {0}, Time: {2}", m_game.MineCount, m_game.FlagCount, (DateTime.Now - m_game_start_time).ToString(@"hh\:mm\:ss"));
             }           
         }
 
